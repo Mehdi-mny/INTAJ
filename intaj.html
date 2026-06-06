@@ -1,0 +1,1298 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>INTAJ.MA — From Idea to Impact</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Syne:wght@400;500;600;700;800&display=swap');
+
+  :root {
+    --orange: #f15a29;
+    --dark: #1a1a1a;
+    --darker: #111111;
+    --black: #0a0a0a;
+    --white: #faf8fa;
+    --gray: #2a2a2a;
+    --gray-light: #3a3a3a;
+    --text-muted: #888888;
+  }
+
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Space Grotesk', sans-serif;
+    background: var(--black);
+    color: var(--white);
+    overflow-x: hidden;
+    cursor: none;
+  }
+
+  /* CUSTOM CURSOR */
+  .cursor {
+    width: 12px; height: 12px;
+    background: var(--orange);
+    border-radius: 50%;
+    position: fixed; top: 0; left: 0;
+    pointer-events: none; z-index: 9999;
+    transition: transform 0.15s ease;
+    mix-blend-mode: difference;
+  }
+  .cursor-follower {
+    width: 36px; height: 36px;
+    border: 1px solid rgba(241,90,41,0.5);
+    border-radius: 50%;
+    position: fixed; top: 0; left: 0;
+    pointer-events: none; z-index: 9998;
+    transition: transform 0.35s ease, width 0.3s ease, height 0.3s ease;
+  }
+  body:hover .cursor { transform: translate(-50%, -50%); }
+
+  /* NAV */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+    padding: 20px 48px;
+    display: flex; align-items: center; justify-content: space-between;
+    background: rgba(10,10,10,0.85);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid rgba(241,90,41,0.12);
+  }
+
+  .nav-logo {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 22px;
+    letter-spacing: 1px;
+    color: var(--orange);
+    text-decoration: none;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .nav-logo .arrow-icon {
+    width: 28px; height: 28px;
+    background: var(--orange);
+    border-radius: 6px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 14px;
+    color: var(--black);
+    font-weight: 900;
+    flex-shrink: 0;
+  }
+
+  .nav-links {
+    display: flex; align-items: center; gap: 36px;
+    list-style: none;
+  }
+  .nav-links a {
+    color: var(--white);
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    opacity: 0.7;
+    transition: opacity 0.2s, color 0.2s;
+  }
+  .nav-links a:hover { opacity: 1; color: var(--orange); }
+
+  .nav-cta {
+    background: var(--orange);
+    color: var(--black) !important;
+    padding: 10px 22px;
+    border-radius: 100px;
+    opacity: 1 !important;
+    font-weight: 700 !important;
+    transition: transform 0.2s, box-shadow 0.2s !important;
+  }
+  .nav-cta:hover { transform: scale(1.05); box-shadow: 0 0 24px rgba(241,90,41,0.4) !important; }
+
+  /* HERO */
+  #hero {
+    min-height: 100vh;
+    display: flex; align-items: center;
+    padding: 120px 48px 80px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-bg {
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse 60% 70% at 70% 50%, rgba(241,90,41,0.08) 0%, transparent 70%),
+                radial-gradient(ellipse 40% 50% at 20% 20%, rgba(241,90,41,0.05) 0%, transparent 60%);
+  }
+
+  /* 3D CANVAS */
+  #hero-canvas {
+    position: absolute; top: 0; right: 0;
+    width: 55%; height: 100%;
+    opacity: 0.85;
+  }
+
+  .hero-content {
+    position: relative; z-index: 2;
+    max-width: 680px;
+  }
+
+  .hero-label {
+    display: inline-flex; align-items: center; gap: 10px;
+    background: rgba(241,90,41,0.12);
+    border: 1px solid rgba(241,90,41,0.3);
+    color: var(--orange);
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 2.5px;
+    text-transform: uppercase;
+    padding: 8px 16px;
+    border-radius: 100px;
+    margin-bottom: 32px;
+    opacity: 0;
+    animation: fadeUp 0.8s ease 0.2s forwards;
+  }
+  .hero-label::before {
+    content: '';
+    width: 6px; height: 6px;
+    background: var(--orange);
+    border-radius: 50%;
+    animation: pulse 1.5s infinite;
+  }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.5; transform: scale(1.5); }
+  }
+
+  .hero-title {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: clamp(52px, 7vw, 90px);
+    line-height: 0.95;
+    letter-spacing: -2px;
+    margin-bottom: 24px;
+    opacity: 0;
+    animation: fadeUp 0.9s ease 0.4s forwards;
+  }
+  .hero-title .line-orange { color: var(--orange); display: block; }
+  .hero-title .line-white { color: var(--white); display: block; }
+  .hero-title .line-outline {
+    -webkit-text-stroke: 2px var(--white);
+    color: transparent;
+    display: block;
+  }
+
+  .hero-slogan {
+    font-size: 13px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 28px;
+    opacity: 0;
+    animation: fadeUp 0.9s ease 0.55s forwards;
+  }
+
+  .hero-desc {
+    font-size: 16px;
+    line-height: 1.7;
+    color: rgba(250,248,250,0.65);
+    max-width: 480px;
+    margin-bottom: 44px;
+    opacity: 0;
+    animation: fadeUp 0.9s ease 0.65s forwards;
+  }
+
+  .hero-actions {
+    display: flex; align-items: center; gap: 20px;
+    opacity: 0;
+    animation: fadeUp 0.9s ease 0.8s forwards;
+    margin-bottom: 80px;
+  }
+
+  .btn-primary {
+    background: var(--orange);
+    color: var(--black);
+    border: none;
+    padding: 16px 36px;
+    border-radius: 100px;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-flex; align-items: center; gap: 10px;
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+  }
+  .btn-primary:hover { transform: translateY(-2px) scale(1.03); box-shadow: 0 12px 40px rgba(241,90,41,0.4); }
+  .btn-primary .btn-arrow { font-size: 18px; transition: transform 0.2s; }
+  .btn-primary:hover .btn-arrow { transform: translate(3px, -3px); }
+
+  .btn-secondary {
+    color: var(--white);
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    display: inline-flex; align-items: center; gap: 8px;
+    border-bottom: 1px solid rgba(250,248,250,0.3);
+    padding-bottom: 3px;
+    transition: color 0.2s, border-color 0.2s;
+  }
+  .btn-secondary:hover { color: var(--orange); border-color: var(--orange); }
+
+  .hero-stats {
+    position: absolute; bottom: 48px; left: 48px;
+    display: flex; gap: 48px;
+    opacity: 0;
+    animation: fadeUp 0.9s ease 1s forwards;
+    z-index: 2;
+  }
+  .stat-item { }
+  .stat-num {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 36px;
+    color: var(--orange);
+    line-height: 1;
+  }
+  .stat-label {
+    font-size: 11px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-top: 4px;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* MARQUEE */
+  .marquee-section {
+    border-top: 1px solid rgba(241,90,41,0.15);
+    border-bottom: 1px solid rgba(241,90,41,0.15);
+    background: rgba(241,90,41,0.04);
+    padding: 18px 0;
+    overflow: hidden;
+  }
+  .marquee-track {
+    display: flex; gap: 0;
+    animation: marquee 18s linear infinite;
+    white-space: nowrap;
+  }
+  .marquee-item {
+    display: inline-flex; align-items: center; gap: 24px;
+    padding: 0 32px;
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    flex-shrink: 0;
+  }
+  .marquee-item .dot { color: var(--orange); font-size: 18px; }
+  @keyframes marquee {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+
+  /* SECTION COMMONS */
+  section { padding: 120px 48px; }
+
+  .section-label {
+    display: inline-flex; align-items: center; gap: 10px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--orange);
+    margin-bottom: 20px;
+  }
+  .section-label::before { content: '/'; }
+
+  .section-title {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: clamp(36px, 5vw, 64px);
+    line-height: 1;
+    letter-spacing: -1px;
+    margin-bottom: 20px;
+  }
+  .section-title span { color: var(--orange); }
+  .section-title .outline {
+    -webkit-text-stroke: 1.5px var(--white);
+    color: transparent;
+  }
+
+  /* SERVICES */
+  #services { background: var(--darker); }
+
+  .services-header {
+    display: flex; align-items: flex-end; justify-content: space-between;
+    margin-bottom: 72px;
+  }
+  .services-header-text { max-width: 560px; }
+  .services-header p {
+    font-size: 16px;
+    line-height: 1.7;
+    color: rgba(250,248,250,0.6);
+    margin-top: 16px;
+  }
+  .services-count {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 80px;
+    color: rgba(241,90,41,0.12);
+    line-height: 1;
+    letter-spacing: -3px;
+  }
+
+  .services-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2px;
+  }
+
+  .service-card {
+    background: var(--gray);
+    padding: 44px 36px;
+    position: relative;
+    overflow: hidden;
+    transition: background 0.3s ease;
+    cursor: default;
+  }
+  .service-card::before {
+    content: '';
+    position: absolute; bottom: 0; left: 0;
+    width: 0; height: 2px;
+    background: var(--orange);
+    transition: width 0.4s ease;
+  }
+  .service-card:hover { background: #242424; }
+  .service-card:hover::before { width: 100%; }
+
+  .service-num {
+    font-family: 'Syne', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    color: var(--orange);
+    margin-bottom: 32px;
+    opacity: 0.7;
+  }
+  .service-icon {
+    width: 48px; height: 48px;
+    background: rgba(241,90,41,0.12);
+    border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 22px;
+    margin-bottom: 24px;
+    transition: background 0.3s, transform 0.3s;
+  }
+  .service-card:hover .service-icon { background: rgba(241,90,41,0.2); transform: scale(1.08); }
+
+  .service-title {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 22px;
+    margin-bottom: 14px;
+    line-height: 1.2;
+  }
+  .service-desc {
+    font-size: 14px;
+    line-height: 1.65;
+    color: rgba(250,248,250,0.55);
+  }
+  .service-arrow {
+    position: absolute; top: 36px; right: 36px;
+    width: 32px; height: 32px;
+    border: 1px solid rgba(241,90,41,0.3);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 14px;
+    color: var(--orange);
+    opacity: 0;
+    transition: opacity 0.3s, transform 0.3s;
+  }
+  .service-card:hover .service-arrow { opacity: 1; transform: rotate(45deg); }
+
+  /* WORKFLOW */
+  #workflow {
+    background: var(--black);
+    position: relative;
+    overflow: hidden;
+  }
+  #workflow-canvas {
+    position: absolute; top: 0; right: 0;
+    width: 40%; height: 100%;
+    opacity: 0.4;
+  }
+
+  .workflow-content { position: relative; z-index: 2; }
+  .workflow-header { margin-bottom: 64px; max-width: 600px; }
+  .workflow-header p { font-size: 16px; line-height: 1.7; color: rgba(250,248,250,0.6); margin-top: 16px; }
+
+  .workflow-steps { display: flex; flex-direction: column; gap: 0; max-width: 700px; }
+
+  .workflow-step {
+    display: flex; gap: 32px;
+    padding: 36px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+    position: relative;
+    transition: padding-left 0.3s ease;
+  }
+  .workflow-step:hover { padding-left: 12px; }
+  .workflow-step:last-child { border-bottom: none; }
+
+  .step-num {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 13px;
+    color: var(--orange);
+    letter-spacing: 1px;
+    flex-shrink: 0;
+    padding-top: 4px;
+    width: 32px;
+  }
+  .step-body { flex: 1; }
+  .step-title {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 22px;
+    margin-bottom: 10px;
+    display: flex; align-items: center; gap: 14px;
+  }
+  .step-badge {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--orange);
+    background: rgba(241,90,41,0.1);
+    border: 1px solid rgba(241,90,41,0.2);
+    padding: 3px 10px;
+    border-radius: 100px;
+  }
+  .step-desc { font-size: 14px; line-height: 1.65; color: rgba(250,248,250,0.55); }
+
+  /* TEAM / ROLES */
+  #team { background: var(--darker); }
+
+  .roles-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
+    margin-top: 64px;
+  }
+
+  .role-card {
+    background: var(--gray);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 16px;
+    padding: 36px 28px;
+    position: relative;
+    overflow: hidden;
+    transition: border-color 0.3s, transform 0.3s;
+  }
+  .role-card:hover {
+    border-color: rgba(241,90,41,0.4);
+    transform: translateY(-6px);
+  }
+  .role-card::after {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0;
+    height: 2px;
+    background: var(--orange);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.4s ease;
+  }
+  .role-card:hover::after { transform: scaleX(1); }
+
+  .role-emoji {
+    font-size: 32px;
+    margin-bottom: 20px;
+    display: block;
+    filter: grayscale(0);
+  }
+  .role-title {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 16px;
+    color: var(--orange);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+  .role-name {
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 12px;
+  }
+  .role-desc { font-size: 13px; line-height: 1.6; color: rgba(250,248,250,0.5); }
+
+  /* PREMIUM RULES */
+  #premium { background: var(--orange); color: var(--black); }
+  #premium .section-label { color: rgba(10,10,10,0.6); }
+  #premium .section-label::before { content: '/'; }
+  #premium .section-title { color: var(--black); }
+  #premium .section-title .outline { -webkit-text-stroke: 1.5px var(--black); color: transparent; }
+
+  .rules-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2px;
+    margin-top: 56px;
+  }
+
+  .rule-item {
+    background: rgba(0,0,0,0.08);
+    padding: 36px 36px;
+    display: flex; align-items: flex-start; gap: 24px;
+    transition: background 0.25s;
+  }
+  .rule-item:hover { background: rgba(0,0,0,0.15); }
+
+  .rule-num {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 44px;
+    color: rgba(0,0,0,0.15);
+    line-height: 1;
+    flex-shrink: 0;
+  }
+  .rule-text h4 {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 20px;
+    margin-bottom: 8px;
+    color: var(--black);
+  }
+  .rule-text p { font-size: 14px; line-height: 1.6; color: rgba(10,10,10,0.65); }
+
+  /* POSITIONING */
+  #positioning {
+    background: var(--black);
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  #pos-canvas {
+    position: absolute; inset: 0;
+    width: 100%; height: 100%;
+    opacity: 0.5;
+  }
+
+  .pos-content { position: relative; z-index: 2; }
+  .pos-content .section-label { justify-content: center; }
+
+  .pos-tagline {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: clamp(42px, 6vw, 80px);
+    line-height: 1;
+    letter-spacing: -2px;
+    margin: 20px 0 40px;
+  }
+  .pos-tagline .orange { color: var(--orange); }
+
+  .pos-desc {
+    font-size: 17px;
+    line-height: 1.7;
+    color: rgba(250,248,250,0.6);
+    max-width: 600px;
+    margin: 0 auto 56px;
+  }
+
+  .pos-pillars {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    max-width: 860px;
+    margin: 0 auto 56px;
+  }
+  .pillar {
+    background: rgba(241,90,41,0.07);
+    border: 1px solid rgba(241,90,41,0.15);
+    border-radius: 12px;
+    padding: 28px 24px;
+  }
+  .pillar-icon { font-size: 28px; margin-bottom: 14px; }
+  .pillar h4 {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 16px;
+    margin-bottom: 8px;
+  }
+  .pillar p { font-size: 13px; color: rgba(250,248,250,0.55); line-height: 1.55; }
+
+  /* CONTACT */
+  #contact { background: var(--darker); }
+
+  .contact-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: start;
+  }
+  .contact-left p {
+    font-size: 16px;
+    line-height: 1.7;
+    color: rgba(250,248,250,0.6);
+    margin: 16px 0 36px;
+  }
+  .contact-info { display: flex; flex-direction: column; gap: 16px; }
+  .contact-item {
+    display: flex; align-items: center; gap: 14px;
+    font-size: 15px;
+    color: rgba(250,248,250,0.8);
+  }
+  .contact-item .ci-icon {
+    width: 40px; height: 40px;
+    background: rgba(241,90,41,0.1);
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px;
+    flex-shrink: 0;
+  }
+
+  .contact-form { display: flex; flex-direction: column; gap: 20px; }
+  .form-group { display: flex; flex-direction: column; gap: 8px; }
+  .form-group label {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--text-muted);
+  }
+  .form-group input,
+  .form-group select,
+  .form-group textarea {
+    background: var(--gray);
+    border: 1px solid rgba(255,255,255,0.08);
+    color: var(--white);
+    padding: 14px 18px;
+    border-radius: 10px;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 15px;
+    outline: none;
+    transition: border-color 0.25s;
+    resize: none;
+  }
+  .form-group input:focus,
+  .form-group select:focus,
+  .form-group textarea:focus { border-color: var(--orange); }
+  .form-group select option { background: var(--gray); }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+
+  /* FOOTER */
+  footer {
+    background: var(--black);
+    border-top: 1px solid rgba(241,90,41,0.12);
+    padding: 40px 48px;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .footer-logo {
+    font-family: 'Syne', sans-serif;
+    font-weight: 800;
+    font-size: 20px;
+    color: var(--orange);
+    text-decoration: none;
+  }
+  .footer-copy {
+    font-size: 12px;
+    color: var(--text-muted);
+    letter-spacing: 1px;
+  }
+  .footer-links {
+    display: flex; gap: 24px; list-style: none;
+  }
+  .footer-links a {
+    font-size: 12px;
+    color: var(--text-muted);
+    text-decoration: none;
+    transition: color 0.2s;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+  .footer-links a:hover { color: var(--orange); }
+
+  /* SCROLL REVEAL */
+  .reveal {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+  }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+
+  /* ORANGE LINE SEPARATOR */
+  .orange-line {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--orange), transparent);
+    opacity: 0.3;
+  }
+</style>
+</head>
+<body>
+
+<div class="cursor" id="cursor"></div>
+<div class="cursor-follower" id="cursorFollower"></div>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo">
+    <span class="arrow-icon">↗</span>
+    INTAJ
+  </a>
+  <ul class="nav-links">
+    <li><a href="#services">Services</a></li>
+    <li><a href="#workflow">Workflow</a></li>
+    <li><a href="#team">Équipe</a></li>
+    <li><a href="#positioning">Vision</a></li>
+    <li><a href="#contact" class="nav-cta">Démarrer →</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-bg"></div>
+  <canvas id="hero-canvas"></canvas>
+
+  <div class="hero-content">
+    <div class="hero-label">Agence Marketing Digital · Maroc</div>
+    <h1 class="hero-title">
+      <span class="line-orange">FROM IDEA</span>
+      <span class="line-white">TO</span>
+      <span class="line-outline">IMPACT.</span>
+    </h1>
+    <p class="hero-slogan">intaj — production · création · innovation</p>
+    <p class="hero-desc">
+      INTAJ est une agence de marketing digital spécialisée dans la création de contenu et la publicité créative. Nous transformons vos idées en résultats mesurables sur le marché marocain.
+    </p>
+    <div class="hero-actions">
+      <a href="#contact" class="btn-primary">
+        Lancer un projet <span class="btn-arrow">↗</span>
+      </a>
+      <a href="#services" class="btn-secondary">Nos services →</a>
+    </div>
+  </div>
+
+  <div class="hero-stats">
+    <div class="stat-item">
+      <div class="stat-num">4+</div>
+      <div class="stat-label">Experts dédiés</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">5</div>
+      <div class="stat-label">Phases workflow</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-num">100%</div>
+      <div class="stat-label">Premium quality</div>
+    </div>
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee-section">
+  <div class="marquee-track" id="marquee">
+    <div class="marquee-item">Filmmaking <span class="dot">◆</span></div>
+    <div class="marquee-item">Branding <span class="dot">◆</span></div>
+    <div class="marquee-item">Media Buying <span class="dot">◆</span></div>
+    <div class="marquee-item">Content Strategy <span class="dot">◆</span></div>
+    <div class="marquee-item">Paid Ads <span class="dot">◆</span></div>
+    <div class="marquee-item">Community Management <span class="dot">◆</span></div>
+    <div class="marquee-item">Montage & Design <span class="dot">◆</span></div>
+    <div class="marquee-item">Growth Marketing <span class="dot">◆</span></div>
+    <div class="marquee-item">Filmmaking <span class="dot">◆</span></div>
+    <div class="marquee-item">Branding <span class="dot">◆</span></div>
+    <div class="marquee-item">Media Buying <span class="dot">◆</span></div>
+    <div class="marquee-item">Content Strategy <span class="dot">◆</span></div>
+    <div class="marquee-item">Paid Ads <span class="dot">◆</span></div>
+    <div class="marquee-item">Community Management <span class="dot">◆</span></div>
+    <div class="marquee-item">Montage & Design <span class="dot">◆</span></div>
+    <div class="marquee-item">Growth Marketing <span class="dot">◆</span></div>
+  </div>
+</div>
+
+<!-- SERVICES -->
+<section id="services">
+  <div class="services-header reveal">
+    <div class="services-header-text">
+      <div class="section-label">Nos Services</div>
+      <h2 class="section-title">Ce que nous <span>créons</span><br>pour vous.</h2>
+      <p>Des solutions marketing sur mesure, alliant créativité et performance pour faire grandir votre marque sur tous les canaux digitaux.</p>
+    </div>
+    <div class="services-count">04</div>
+  </div>
+
+  <div class="services-grid reveal">
+    <div class="service-card">
+      <div class="service-num">01</div>
+      <h3 class="service-title">Filmmaking &<br>Direction Créative</h3>
+      <p class="service-desc">Réalisation vidéo premium, scripts, storyboards et direction artistique. Contenu visuel qui marque les esprits et convertit.</p>
+      <div class="service-arrow">↗</div>
+    </div>
+    <div class="service-card">
+      <div class="service-num">02</div>
+      <h3 class="service-title">Community<br>Management</h3>
+      <p class="service-desc">Gestion complète de vos plateformes sociales. Stratégie éditoriale, publication et engagement de votre communauté.</p>
+      <div class="service-arrow">↗</div>
+    </div>
+    <div class="service-card">
+      <div class="service-num">03</div>
+      <h3 class="service-title">Branding &<br>Design</h3>
+      <p class="service-desc">Identité visuelle, visuels pour réseaux sociaux, supports print et digitaux. Design premium aligné à vos objectifs business.</p>
+      <div class="service-arrow">↗</div>
+    </div>
+    <div class="service-card">
+      <div class="service-num">04</div>
+      <h3 class="service-title">Media Buying<br>& Growth</h3>
+      <p class="service-desc">Stratégies paid ads Facebook, Instagram, TikTok. Tracking, optimisation et reporting performance pour maximiser votre ROI.</p>
+      <div class="service-arrow">↗</div>
+    </div>
+    <div class="service-card">
+      <div class="service-num">05</div>
+      <h3 class="service-title">Montage &<br>Post-Production</h3>
+      <p class="service-desc">Montage vidéo professionnel, motion design, reels, stories et tous formats digitaux livrés dans les délais.</p>
+      <div class="service-arrow">↗</div>
+    </div>
+    <div class="service-card">
+      <div class="service-num">06</div>
+      <h3 class="service-title">Stratégie &<br>Consulting</h3>
+      <p class="service-desc">Audit digital, définition des piliers de contenu, calendrier éditorial mensuel et stratégie de croissance sur-mesure.</p>
+      <div class="service-arrow">↗</div>
+    </div>
+  </div>
+</section>
+
+<div class="orange-line"></div>
+
+<!-- WORKFLOW -->
+<section id="workflow">
+  <canvas id="workflow-canvas"></canvas>
+  <div class="workflow-content">
+    <div class="workflow-header reveal">
+      <div class="section-label">Notre Processus</div>
+      <h2 class="section-title">Workflow <span>Officiel</span><br><span class="outline">5 Phases.</span></h2>
+      <p>Un système structuré et éprouvé. Chaque client bénéficie du même niveau d'excellence, de l'acquisition à la croissance.</p>
+    </div>
+
+    <div class="workflow-steps">
+      <div class="workflow-step reveal">
+        <div class="step-num">01</div>
+        <div class="step-body">
+          <div class="step-title">Acquisition <span class="step-badge">Discovery Call</span></div>
+          <p class="step-desc">Appel découverte structuré pour comprendre votre problème, vos objectifs business, votre budget et votre positionnement. Si le projet est qualifié, envoi d'une proposition formelle suivie de la signature du contrat et du paiement d'un acompte.</p>
+        </div>
+      </div>
+      <div class="workflow-step reveal">
+        <div class="step-num">02</div>
+        <div class="step-body">
+          <div class="step-title">Onboarding <span class="step-badge">KPI Setup</span></div>
+          <p class="step-desc">Formulaire onboarding complet, récupération des accès nécessaires et définition des KPI clairs. Aucun travail ne commence sans onboarding validé.</p>
+        </div>
+      </div>
+      <div class="workflow-step reveal">
+        <div class="step-num">03</div>
+        <div class="step-body">
+          <div class="step-title">Stratégie <span class="step-badge">Content Plan</span></div>
+          <p class="step-desc">Analyse du marché et de la concurrence, définition des piliers de contenu, plan mensuel et calendrier éditorial. Validation globale de la stratégie pour éviter les validations fragmentées.</p>
+        </div>
+      </div>
+      <div class="workflow-step reveal">
+        <div class="step-num">04</div>
+        <div class="step-body">
+          <div class="step-title">Production <span class="step-badge">Delivery</span></div>
+          <p class="step-desc">Scripts → tournage planifié → montage → révision incluse → livraison finale. Centralisation sur Notion ou ClickUp pour éviter toute désorganisation.</p>
+        </div>
+      </div>
+      <div class="workflow-step reveal">
+        <div class="step-num">05</div>
+        <div class="step-body">
+          <div class="step-title">Distribution & Growth <span class="step-badge">Reporting</span></div>
+          <p class="step-desc">Publication, activation des ads si incluses, reporting mensuel et réunion d'optimisation continue pour maximiser votre croissance.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="orange-line"></div>
+
+<!-- TEAM -->
+<section id="team">
+  <div class="reveal">
+    <div class="section-label">Structure de l'Agence</div>
+    <h2 class="section-title">Une équipe, <span>4 pôles</span><br>d'expertise.</h2>
+  </div>
+
+  <div class="roles-grid reveal">
+    <div class="role-card">
+      <div class="role-title">Creative Director</div>
+      <div class="role-name">Vision & Stratégie</div>
+      <p class="role-desc">Responsable de la vision créative, de la stratégie de contenu, des scripts et de la validation finale de chaque production.</p>
+    </div>
+    <div class="role-card">
+      <div class="role-title">Project Manager</div>
+      <div class="role-name">Organisation & Flow</div>
+      <p class="role-desc">Responsable des deadlines, de la coordination interne et de l'organisation des shootings et livraisons clients.</p>
+    </div>
+    <div class="role-card">
+      <div class="role-title">Content Operator</div>
+      <div class="role-name">Création & Livraison</div>
+      <p class="role-desc">Responsable du montage vidéo, du design graphique et de la livraison de tous les formats finaux dans les délais.</p>
+    </div>
+    <div class="role-card">
+      <div class="role-title">Growth Manager</div>
+      <div class="role-name">Performance & Ads</div>
+      <p class="role-desc">Responsable des stratégies paid ads, du tracking des conversions et du reporting performance mensuel.</p>
+    </div>
+  </div>
+</section>
+
+<!-- PREMIUM RULES -->
+<section id="premium">
+  <div class="reveal">
+    <div class="section-label">Notre ADN</div>
+    <h2 class="section-title">Les règles pour<br>être <span class="outline">premium.</span></h2>
+  </div>
+
+  <div class="rules-grid reveal">
+    <div class="rule-item">
+      <div class="rule-num">01</div>
+      <div class="rule-text">
+        <h4>Toujours un acompte</h4>
+        <p>Nous ne démarrons aucun projet sans acompte validé. C'est la base d'une relation professionnelle sérieuse et engagée des deux côtés.</p>
+      </div>
+    </div>
+    <div class="rule-item">
+      <div class="rule-num">02</div>
+      <div class="rule-text">
+        <h4>Révisions limitées</h4>
+        <p>Nous travaillons avec des révisions définies contractuellement. Cela garantit une production fluide et une qualité constante.</p>
+      </div>
+    </div>
+    <div class="rule-item">
+      <div class="rule-num">03</div>
+      <div class="rule-text">
+        <h4>Deadlines claires</h4>
+        <p>Chaque projet a un calendrier précis. Nous respectons nos délais et attendons la même rigueur de la part de nos clients.</p>
+      </div>
+    </div>
+    <div class="rule-item">
+      <div class="rule-num">04</div>
+      <div class="rule-text">
+        <h4>Communication centralisée</h4>
+        <p>Une seule plateforme, un seul interlocuteur. Nous adoptons une approche formelle et professionnelle pour chaque échange.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- POSITIONING -->
+<section id="positioning">
+  <canvas id="pos-canvas"></canvas>
+  <div class="pos-content">
+    <div class="section-label reveal">Notre Positionnement</div>
+    <h2 class="pos-tagline reveal">
+      L'agence qui fait<br><span class="orange">vraiment la différence</span><br>au Maroc.
+    </h2>
+    <p class="pos-desc reveal">
+      INTAJ n'est pas une agence ordinaire. Nous combinons production vidéo haut de gamme, stratégie digitale data-driven et créativité sans limite pour construire des marques qui restent en mémoire.
+    </p>
+
+    <div class="pos-pillars reveal">
+      <div class="pillar">
+        <h4>L'idée</h4>
+        <p>Le point de départ de toute création. Nous analysons, conceptualisons et innova pour chaque projet.</p>
+      </div>
+      <div class="pillar">
+        <h4>La production</h4>
+        <p>Intaj signifie «production» en arabe. C'est notre cœur de métier, notre passion, notre expertise.</p>
+      </div>
+      <div class="pillar">
+        <h4>L'impact</h4>
+        <p>La flèche représente l'élan de vos idées lorsqu'elles prennent vie et touchent votre audience.</p>
+      </div>
+    </div>
+
+    <a href="#contact" class="btn-primary reveal" style="margin: 0 auto; display: inline-flex;">
+      Démarrer votre projet ↗
+    </a>
+  </div>
+</section>
+
+<div class="orange-line"></div>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="contact-grid">
+    <div class="contact-left reveal">
+      <div class="section-label">Contact</div>
+      <h2 class="section-title">Parlons de<br>votre <span>projet.</span></h2>
+      <p>Prêt à passer de l'idée à l'impact ? Contactez-nous pour un appel découverte gratuit et sans engagement.</p>
+
+      <div class="contact-info">
+        <div class="contact-item">
+          intaj.ma
+        </div>
+        <div class="contact-item">
+          Maroc — Disponible partout
+        </div>
+        <div class="contact-item">
+          @intaj.ma
+        </div>
+      </div>
+    </div>
+
+    <div class="contact-form reveal">
+      <div class="form-row">
+        <div class="form-group">
+          <label>Prénom</label>
+          <input type="text" placeholder="Votre prénom">
+        </div>
+        <div class="form-group">
+          <label>Nom</label>
+          <input type="text" placeholder="Votre nom">
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Email / WhatsApp</label>
+        <input type="text" placeholder="contact@votreentreprise.ma">
+      </div>
+      <div class="form-group">
+        <label>Service souhaité</label>
+        <select>
+          <option value="" disabled selected>Choisir un service...</option>
+          <option>Filmmaking & Direction Créative</option>
+          <option>Community Management</option>
+          <option>Branding & Design</option>
+          <option>Media Buying & Ads</option>
+          <option>Stratégie complète</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Votre projet</label>
+        <textarea rows="4" placeholder="Décrivez votre projet, vos objectifs..."></textarea>
+      </div>
+      <button class="btn-primary" style="width:100%; justify-content:center;" onclick="alert('Message envoyé ! Nous vous répondons sous 24h.')">
+        Envoyer la demande ↗
+      </button>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <a href="#" class="footer-logo">↗ INTAJ.MA</a>
+  <span class="footer-copy">© 2026 INTAJ.MA — From Idea to Impact</span>
+  <ul class="footer-links">
+    <li><a href="#services">Services</a></li>
+    <li><a href="#workflow">Process</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</footer>
+
+<script>
+// CURSOR
+const cursor = document.getElementById('cursor');
+const follower = document.getElementById('cursorFollower');
+let mx = 0, my = 0, fx = 0, fy = 0;
+document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
+function animateCursor() {
+  cursor.style.left = mx + 'px'; cursor.style.top = my + 'px';
+  fx += (mx - fx) * 0.12; fy += (my - fy) * 0.12;
+  follower.style.left = (fx - 18) + 'px'; follower.style.top = (fy - 18) + 'px';
+  requestAnimationFrame(animateCursor);
+}
+animateCursor();
+document.querySelectorAll('a, button').forEach(el => {
+  el.addEventListener('mouseenter', () => { follower.style.width = '56px'; follower.style.height = '56px'; follower.style.borderColor = 'rgba(241,90,41,0.8)'; });
+  el.addEventListener('mouseleave', () => { follower.style.width = '36px'; follower.style.height = '36px'; follower.style.borderColor = 'rgba(241,90,41,0.5)'; });
+});
+
+// HERO 3D CANVAS
+(function() {
+  const c = document.getElementById('hero-canvas');
+  if (!c) return;
+  const ctx = c.getContext('2d');
+  function resize() { c.width = c.offsetWidth; c.height = c.offsetHeight; }
+  resize();
+  window.addEventListener('resize', resize);
+
+  const particles = [];
+  for (let i = 0; i < 60; i++) {
+    particles.push({
+      x: Math.random() * c.width, y: Math.random() * c.height,
+      r: Math.random() * 2 + 0.5,
+      vx: (Math.random() - 0.5) * 0.4, vy: (Math.random() - 0.5) * 0.4,
+      opacity: Math.random() * 0.5 + 0.1,
+      hue: Math.random() > 0.7 ? 241 : 220
+    });
+  }
+
+  const arrows = [];
+  for (let i = 0; i < 8; i++) {
+    arrows.push({
+      x: Math.random() * c.width, y: Math.random() * c.height,
+      size: Math.random() * 40 + 20,
+      opacity: Math.random() * 0.12 + 0.04,
+      speed: (Math.random() - 0.5) * 0.3,
+      vy: (Math.random() - 0.5) * 0.2,
+      rot: Math.random() * Math.PI * 2
+    });
+  }
+
+  let t = 0;
+  function draw() {
+    t++;
+    ctx.clearRect(0, 0, c.width, c.height);
+
+    // Particles
+    particles.forEach(p => {
+      p.x += p.vx; p.y += p.vy;
+      if (p.x < 0) p.x = c.width; if (p.x > c.width) p.x = 0;
+      if (p.y < 0) p.y = c.height; if (p.y > c.height) p.y = 0;
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(241,90,41,${p.opacity})`;
+      ctx.fill();
+    });
+
+    // Connect particles
+    particles.forEach((a, i) => {
+      particles.slice(i + 1).forEach(b => {
+        const d = Math.hypot(a.x - b.x, a.y - b.y);
+        if (d < 100) {
+          ctx.beginPath();
+          ctx.moveTo(a.x, a.y); ctx.lineTo(b.x, b.y);
+          ctx.strokeStyle = `rgba(241,90,41,${0.08 * (1 - d / 100)})`;
+          ctx.lineWidth = 0.5;
+          ctx.stroke();
+        }
+      });
+    });
+
+    // Floating arrows
+    arrows.forEach(a => {
+      a.x += a.speed; a.y += a.vy; a.rot += 0.003;
+      if (a.x < -50) a.x = c.width + 50; if (a.x > c.width + 50) a.x = -50;
+      if (a.y < -50) a.y = c.height + 50; if (a.y > c.height + 50) a.y = -50;
+      ctx.save();
+      ctx.translate(a.x, a.y); ctx.rotate(a.rot);
+      ctx.globalAlpha = a.opacity;
+      ctx.strokeStyle = '#f15a29';
+      ctx.lineWidth = 2;
+      ctx.lineCap = 'round';
+      const s = a.size;
+      ctx.beginPath();
+      ctx.moveTo(-s * 0.4, s * 0.4);
+      ctx.lineTo(s * 0.4, -s * 0.4);
+      ctx.moveTo(s * 0.4, -s * 0.4);
+      ctx.lineTo(0, -s * 0.4);
+      ctx.moveTo(s * 0.4, -s * 0.4);
+      ctx.lineTo(s * 0.4, 0);
+      ctx.stroke();
+      // dot
+      ctx.beginPath();
+      ctx.arc(-s * 0.4, s * 0.4, s * 0.08, 0, Math.PI * 2);
+      ctx.fillStyle = '#f15a29';
+      ctx.fill();
+      ctx.restore();
+      ctx.globalAlpha = 1;
+    });
+
+    requestAnimationFrame(draw);
+  }
+  draw();
+})();
+
+// WORKFLOW CANVAS
+(function() {
+  const c = document.getElementById('workflow-canvas');
+  if (!c) return;
+  const ctx = c.getContext('2d');
+  function resize() { c.width = c.offsetWidth; c.height = c.offsetHeight; }
+  resize(); window.addEventListener('resize', resize);
+  let t = 0;
+  function draw() {
+    t++;
+    ctx.clearRect(0, 0, c.width, c.height);
+    for (let i = 0; i < 5; i++) {
+      const cx = c.width * 0.5 + Math.sin(t * 0.008 + i) * 60;
+      const cy = c.height * 0.5 + Math.cos(t * 0.006 + i * 1.2) * 80;
+      const r = 60 + i * 40 + Math.sin(t * 0.01 + i) * 15;
+      ctx.beginPath();
+      ctx.arc(cx, cy, r, 0, Math.PI * 2);
+      ctx.strokeStyle = `rgba(241,90,41,${0.07 - i * 0.01})`;
+      ctx.lineWidth = 0.8;
+      ctx.stroke();
+    }
+    requestAnimationFrame(draw);
+  }
+  draw();
+})();
+
+// POSITIONING CANVAS
+(function() {
+  const c = document.getElementById('pos-canvas');
+  if (!c) return;
+  const ctx = c.getContext('2d');
+  function resize() { c.width = c.offsetWidth; c.height = c.offsetHeight; }
+  resize(); window.addEventListener('resize', resize);
+  let t = 0;
+  const lines = Array.from({length: 12}, (_, i) => ({
+    x: Math.random() * 1000, y: Math.random() * 600,
+    len: Math.random() * 120 + 40, angle: -Math.PI / 4,
+    speed: (Math.random() - 0.5) * 0.5, opacity: Math.random() * 0.12 + 0.04
+  }));
+  function draw() {
+    t++;
+    ctx.clearRect(0, 0, c.width, c.height);
+    lines.forEach(l => {
+      l.x += l.speed; l.y += l.speed * 0.3;
+      if (l.x > c.width + 100) l.x = -100;
+      if (l.y > c.height + 100) l.y = -100;
+      ctx.save();
+      ctx.translate(l.x, l.y); ctx.rotate(l.angle);
+      ctx.beginPath();
+      ctx.moveTo(0, 0); ctx.lineTo(l.len, 0);
+      ctx.strokeStyle = `rgba(241,90,41,${l.opacity})`;
+      ctx.lineWidth = 1.5; ctx.lineCap = 'round';
+      ctx.stroke();
+      ctx.restore();
+    });
+    requestAnimationFrame(draw);
+  }
+  draw();
+})();
+
+// SCROLL REVEAL
+const reveals = document.querySelectorAll('.reveal');
+const observer = new IntersectionObserver(entries => {
+  entries.forEach((e, i) => {
+    if (e.isIntersecting) {
+      setTimeout(() => e.target.classList.add('visible'), i * 80);
+      observer.unobserve(e.target);
+    }
+  });
+}, { threshold: 0.1 });
+reveals.forEach(el => observer.observe(el));
+
+// SMOOTH ANCHOR
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+  a.addEventListener('click', e => {
+    e.preventDefault();
+    const target = document.querySelector(a.getAttribute('href'));
+    if (target) target.scrollIntoView({ behavior: 'smooth' });
+  });
+});
+
+// NAV SCROLL EFFECT
+window.addEventListener('scroll', () => {
+  const nav = document.querySelector('nav');
+  nav.style.borderBottomColor = window.scrollY > 60 ? 'rgba(241,90,41,0.25)' : 'rgba(241,90,41,0.12)';
+});
+</script>
+</body>
+</html>
