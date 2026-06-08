@@ -1,15 +1,7 @@
 {
   "name": "intaj-responsive-web",
-  "type": "javascript",
   "compatibility_date": "2026-06-08",
-  "main": "src/index.ts",
   "assets": {
     "directory": "."
-  },
-  "routes": [
-    {
-      "pattern": "^/$",
-      "zone_name": "example.com"
-    }
-  ]
+  }
 }
