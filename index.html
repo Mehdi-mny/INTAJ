@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>INTAJ.MA — From Idea to Impact</title>
+<title>INTAJ.FR — From Idea to Impact</title>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Syne:wght@400;500;600;700;800&display=swap');
 
@@ -730,6 +730,436 @@
     background: linear-gradient(90deg, transparent, var(--orange), transparent);
     opacity: 0.3;
   }
+
+  /* ===== RESPONSIVE DESIGN ===== */
+  
+  /* Tablet & Medium Screens (1024px and below) */
+  @media (max-width: 1024px) {
+    nav { padding: 20px 32px; }
+    
+    .nav-links { gap: 24px; }
+    .nav-links a { font-size: 12px; }
+    
+    section { padding: 80px 32px; }
+    
+    #hero { padding: 100px 32px 60px; }
+    #hero-canvas { width: 45%; }
+    
+    .hero-title { font-size: clamp(40px, 6vw, 70px); }
+    .section-title { font-size: clamp(28px, 4.5vw, 50px); }
+    
+    .services-grid { grid-template-columns: repeat(2, 1fr); }
+    .services-count { font-size: 60px; }
+    
+    .roles-grid { grid-template-columns: repeat(2, 1fr); }
+    .rules-grid { grid-template-columns: 1fr; gap: 1px; }
+    
+    .contact-grid { gap: 48px; }
+    
+    .pos-pillars { grid-template-columns: repeat(2, 1fr); gap: 16px; }
+    
+    footer { flex-wrap: wrap; gap: 20px; justify-content: center; }
+  }
+
+  /* Mobile (768px and below) */
+  @media (max-width: 768px) {
+    body { cursor: auto; }
+    
+    /* Hide custom cursor on mobile */
+    .cursor, .cursor-follower { display: none; }
+    
+    /* Navigation */
+    nav {
+      padding: 16px 20px;
+      flex-wrap: wrap;
+      gap: 16px;
+    }
+    
+    .nav-logo { font-size: 18px; }
+    .nav-logo .arrow-icon { width: 24px; height: 24px; font-size: 12px; }
+    
+    .nav-links {
+      gap: 16px;
+      flex-wrap: wrap;
+      width: 100%;
+      justify-content: center;
+    }
+    
+    .nav-links a { font-size: 11px; }
+    
+    .nav-cta {
+      padding: 8px 16px;
+      font-size: 12px;
+    }
+    
+    /* Hero Section */
+    #hero {
+      padding: 80px 20px 40px;
+      min-height: auto;
+      flex-direction: column;
+    }
+    
+    #hero-canvas {
+      position: relative;
+      width: 100%;
+      height: 300px;
+      margin-bottom: 30px;
+    }
+    
+    .hero-content { max-width: 100%; }
+    
+    .hero-title {
+      font-size: clamp(28px, 7vw, 40px);
+      margin-bottom: 16px;
+    }
+    
+    .hero-label { margin-bottom: 20px; font-size: 10px; }
+    
+    .hero-slogan { margin-bottom: 16px; }
+    
+    .hero-desc {
+      font-size: 14px;
+      max-width: 100%;
+      margin-bottom: 32px;
+    }
+    
+    .hero-actions {
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 40px;
+    }
+    
+    .btn-primary {
+      padding: 12px 24px;
+      font-size: 13px;
+      flex: 1;
+      min-width: 140px;
+    }
+    
+    .btn-secondary { font-size: 13px; }
+    
+    .hero-stats {
+      position: static;
+      gap: 32px;
+      flex-wrap: wrap;
+      margin-top: 30px;
+    }
+    
+    /* Marquee */
+    .marquee-section { padding: 12px 0; }
+    .marquee-item { padding: 0 16px; font-size: 10px; gap: 12px; }
+    .marquee-item .dot { font-size: 14px; }
+    
+    /* Sections */
+    section { padding: 60px 20px; }
+    
+    .section-label { font-size: 10px; }
+    .section-title { font-size: clamp(24px, 5vw, 40px); margin-bottom: 16px; }
+    
+    /* Services */
+    .services-header {
+      flex-direction: column;
+      gap: 24px;
+      align-items: flex-start;
+    }
+    
+    .services-header-text { max-width: 100%; }
+    .services-header p { font-size: 14px; }
+    
+    .services-count { 
+      font-size: 48px;
+      align-self: flex-end;
+      order: -1;
+    }
+    
+    .services-grid {
+      grid-template-columns: 1fr;
+      gap: 1px;
+    }
+    
+    .service-card {
+      padding: 32px 20px;
+    }
+    
+    .service-title { font-size: 18px; }
+    .service-desc { font-size: 13px; }
+    .service-arrow { width: 28px; height: 28px; font-size: 12px; }
+    
+    /* Workflow */
+    #workflow {
+      padding: 60px 20px;
+    }
+    
+    #workflow-canvas { 
+      width: 100%; 
+      height: 200px;
+      position: relative;
+      margin-bottom: 30px;
+    }
+    
+    .workflow-header { margin-bottom: 40px; max-width: 100%; }
+    .workflow-header p { font-size: 14px; }
+    
+    .workflow-steps { max-width: 100%; }
+    
+    .workflow-step {
+      gap: 16px;
+      padding: 24px 0;
+      flex-direction: column;
+    }
+    
+    .workflow-step:hover { padding-left: 0; }
+    
+    .step-num { width: auto; }
+    .step-title { font-size: 18px; flex-direction: column; gap: 8px; }
+    .step-badge { font-size: 9px; }
+    .step-desc { font-size: 13px; }
+    
+    /* Team / Roles */
+    .roles-grid {
+      grid-template-columns: 1fr;
+      gap: 12px;
+      margin-top: 40px;
+    }
+    
+    .role-card {
+      padding: 24px 20px;
+    }
+    
+    .role-title { font-size: 14px; }
+    .role-name { font-size: 16px; }
+    .role-desc { font-size: 12px; }
+    
+    /* Premium Rules */
+    #premium { padding: 60px 20px; }
+    
+    .rules-grid {
+      grid-template-columns: 1fr;
+      gap: 1px;
+      margin-top: 40px;
+    }
+    
+    .rule-item {
+      padding: 24px 20px;
+      gap: 16px;
+      flex-direction: column;
+    }
+    
+    .rule-num { font-size: 32px; }
+    .rule-text h4 { font-size: 16px; }
+    .rule-text p { font-size: 13px; }
+    
+    /* Positioning */
+    #positioning {
+      padding: 60px 20px;
+    }
+    
+    #pos-canvas {
+      position: relative;
+      height: 200px;
+      margin-bottom: 30px;
+    }
+    
+    .pos-tagline {
+      font-size: clamp(24px, 5vw, 42px);
+      margin: 16px 0 24px;
+    }
+    
+    .pos-desc {
+      font-size: 14px;
+      max-width: 100%;
+      margin-bottom: 40px;
+    }
+    
+    .pos-pillars {
+      grid-template-columns: 1fr;
+      max-width: 100%;
+      gap: 12px;
+      margin-bottom: 40px;
+    }
+    
+    .pillar {
+      padding: 20px 16px;
+    }
+    
+    .pillar h4 { font-size: 15px; }
+    .pillar p { font-size: 12px; }
+    
+    /* Contact */
+    #contact { padding: 60px 20px; }
+    
+    .contact-grid {
+      grid-template-columns: 1fr;
+      gap: 40px;
+      align-items: stretch;
+    }
+    
+    .contact-left p { font-size: 14px; }
+    .contact-item { font-size: 14px; }
+    
+    .contact-form { gap: 16px; }
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      padding: 12px 14px;
+      font-size: 14px;
+    }
+    
+    .form-row { grid-template-columns: 1fr; gap: 12px; }
+    
+    /* Footer */
+    footer {
+      padding: 32px 20px;
+      flex-direction: column;
+      gap: 16px;
+      text-align: center;
+    }
+    
+    .footer-logo { font-size: 16px; }
+    .footer-copy { font-size: 11px; }
+    .footer-links { gap: 16px; flex-wrap: wrap; justify-content: center; }
+    .footer-links a { font-size: 11px; }
+  }
+
+  /* Small Mobile (480px and below) */
+  @media (max-width: 480px) {
+    nav { padding: 12px 16px; }
+    
+    .nav-logo { font-size: 16px; gap: 6px; }
+    .nav-logo .arrow-icon { width: 20px; height: 20px; font-size: 10px; }
+    
+    .nav-links {
+      gap: 12px;
+      font-size: 10px;
+    }
+    
+    .nav-cta {
+      padding: 8px 14px;
+      font-size: 11px;
+      border-radius: 20px;
+    }
+    
+    #hero {
+      padding: 60px 16px 30px;
+    }
+    
+    #hero-canvas { height: 250px; }
+    
+    .hero-label { margin-bottom: 16px; padding: 6px 12px; }
+    
+    .hero-title {
+      font-size: clamp(22px, 6vw, 32px);
+      line-height: 0.9;
+    }
+    
+    .hero-title .line-outline { -webkit-text-stroke: 1px var(--white); }
+    
+    .hero-desc { font-size: 13px; margin-bottom: 24px; }
+    
+    .hero-actions { margin-bottom: 30px; }
+    
+    .btn-primary {
+      padding: 10px 16px;
+      font-size: 12px;
+      min-width: auto;
+    }
+    
+    .hero-stats { gap: 24px; }
+    .stat-num { font-size: 28px; }
+    .stat-label { font-size: 10px; }
+    
+    section { padding: 48px 16px; }
+    
+    .section-title { font-size: clamp(20px, 4vw, 28px); }
+    
+    .services-header { margin-bottom: 40px; }
+    
+    .services-grid { gap: 1px; }
+    
+    .service-card {
+      padding: 24px 16px;
+      position: relative;
+    }
+    
+    .service-num { margin-bottom: 20px; }
+    .service-title { font-size: 16px; margin-bottom: 12px; }
+    .service-desc { font-size: 12px; }
+    .service-arrow { width: 24px; height: 24px; font-size: 10px; }
+    
+    #workflow-canvas { height: 150px; }
+    
+    .step-title { font-size: 16px; }
+    .step-desc { font-size: 12px; }
+    
+    .roles-grid { gap: 10px; }
+    
+    .role-card {
+      padding: 20px 16px;
+      border-radius: 12px;
+    }
+    
+    .role-title { font-size: 12px; }
+    .role-name { font-size: 14px; margin-bottom: 8px; }
+    .role-desc { font-size: 11px; }
+    
+    #premium { padding: 48px 16px; }
+    
+    .rule-item {
+      padding: 20px 16px;
+      gap: 12px;
+    }
+    
+    .rule-num { font-size: 28px; }
+    .rule-text h4 { font-size: 14px; }
+    .rule-text p { font-size: 12px; }
+    
+    #positioning { padding: 48px 16px; }
+    
+    #pos-canvas { height: 150px; }
+    
+    .pos-tagline { font-size: clamp(18px, 4vw, 28px); margin: 12px 0 16px; }
+    
+    .pos-desc { font-size: 13px; margin-bottom: 32px; }
+    
+    .pillar { padding: 16px 12px; }
+    .pillar h4 { font-size: 14px; }
+    .pillar p { font-size: 11px; }
+    
+    #contact { padding: 48px 16px; }
+    
+    .contact-grid { gap: 32px; }
+    
+    .contact-left p { font-size: 13px; }
+    .contact-item { font-size: 13px; }
+    .contact-item .ci-icon { width: 32px; height: 32px; }
+    
+    .form-group label { font-size: 10px; }
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      padding: 10px 12px;
+      font-size: 13px;
+    }
+    
+    .form-row { gap: 10px; }
+    
+    footer {
+      padding: 24px 16px;
+      gap: 12px;
+    }
+    
+    .footer-logo { font-size: 14px; }
+    .footer-copy { font-size: 10px; }
+    .footer-links { gap: 12px; }
+    .footer-links a { font-size: 10px; }
+  }
+
+  /* Print Styles */
+  @media print {
+    .cursor, .cursor-follower { display: none; }
+    nav { position: relative; }
+    #hero-canvas, #workflow-canvas, #pos-canvas { display: none; }
+  }
 </style>
 </head>
 <body>
@@ -1084,8 +1514,8 @@
 
 <!-- FOOTER -->
 <footer>
-  <a href="#" class="footer-logo">↗ INTAJ.MA</a>
-  <span class="footer-copy">© 2026 INTAJ.MA — From Idea to Impact</span>
+  <a href="#" class="footer-logo">↗ INTAJ.FR</a>
+  <span class="footer-copy">© 2026 INTAJ.FR — From Idea to Impact</span>
   <ul class="footer-links">
     <li><a href="#services">Services</a></li>
     <li><a href="#workflow">Process</a></li>
@@ -1094,22 +1524,29 @@
 </footer>
 
 <script>
-// CURSOR
-const cursor = document.getElementById('cursor');
-const follower = document.getElementById('cursorFollower');
-let mx = 0, my = 0, fx = 0, fy = 0;
-document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
-function animateCursor() {
-  cursor.style.left = mx + 'px'; cursor.style.top = my + 'px';
-  fx += (mx - fx) * 0.12; fy += (my - fy) * 0.12;
-  follower.style.left = (fx - 18) + 'px'; follower.style.top = (fy - 18) + 'px';
-  requestAnimationFrame(animateCursor);
+// DETECT TOUCH DEVICE
+const isTouchDevice = () => {
+  return (('ontouchstart' in window) || (navigator.maxTouchPoints > 0) || (navigator.msMaxTouchPoints > 0));
+};
+
+// CURSOR - Only for non-touch devices
+if (!isTouchDevice()) {
+  const cursor = document.getElementById('cursor');
+  const follower = document.getElementById('cursorFollower');
+  let mx = 0, my = 0, fx = 0, fy = 0;
+  document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
+  function animateCursor() {
+    cursor.style.left = mx + 'px'; cursor.style.top = my + 'px';
+    fx += (mx - fx) * 0.12; fy += (my - fy) * 0.12;
+    follower.style.left = (fx - 18) + 'px'; follower.style.top = (fy - 18) + 'px';
+    requestAnimationFrame(animateCursor);
+  }
+  animateCursor();
+  document.querySelectorAll('a, button').forEach(el => {
+    el.addEventListener('mouseenter', () => { follower.style.width = '56px'; follower.style.height = '56px'; follower.style.borderColor = 'rgba(241,90,41,0.8)'; });
+    el.addEventListener('mouseleave', () => { follower.style.width = '36px'; follower.style.height = '36px'; follower.style.borderColor = 'rgba(241,90,41,0.5)'; });
+  });
 }
-animateCursor();
-document.querySelectorAll('a, button').forEach(el => {
-  el.addEventListener('mouseenter', () => { follower.style.width = '56px'; follower.style.height = '56px'; follower.style.borderColor = 'rgba(241,90,41,0.8)'; });
-  el.addEventListener('mouseleave', () => { follower.style.width = '36px'; follower.style.height = '36px'; follower.style.borderColor = 'rgba(241,90,41,0.5)'; });
-});
 
 // HERO 3D CANVAS
 (function() {
@@ -1293,6 +1730,14 @@ window.addEventListener('scroll', () => {
   const nav = document.querySelector('nav');
   nav.style.borderBottomColor = window.scrollY > 60 ? 'rgba(241,90,41,0.25)' : 'rgba(241,90,41,0.12)';
 });
+
+// PREVENT HOVER EFFECTS ON TOUCH DEVICES
+if (isTouchDevice()) {
+  document.querySelectorAll('a, button').forEach(el => {
+    el.addEventListener('touchstart', () => el.style.opacity = '0.7');
+    el.addEventListener('touchend', () => el.style.opacity = '1');
+  });
+}
 </script>
 </body>
 </html>
