@@ -37,8 +37,8 @@
     border-radius: 50%;
     position: fixed; top: 0; left: 0;
     pointer-events: none; z-index: 9999;
-    transition: transform 0.15s ease;
     mix-blend-mode: difference;
+    display: none;
   }
   .cursor-follower {
     width: 36px; height: 36px;
@@ -46,7 +46,7 @@
     border-radius: 50%;
     position: fixed; top: 0; left: 0;
     pointer-events: none; z-index: 9998;
-    transition: transform 0.35s ease, width 0.3s ease, height 0.3s ease;
+    display: none;
   }
   body:hover .cursor { transform: translate(-50%, -50%); }
 
@@ -61,13 +61,14 @@
   }
 
   .nav-logo {
-    font-family: 'Syne', sans-serif;
-    font-weight: 800;
-    font-size: 22px;
-    letter-spacing: 1px;
-    color: var(--orange);
     text-decoration: none;
     display: flex; align-items: center; gap: 10px;
+    height: 40px;
+  }
+  .nav-logo img {
+    height: 40px;
+    width: auto;
+    object-fit: contain;
   }
 
   .nav-links {
@@ -285,7 +286,7 @@
   }
 
   /* SECTION COMMONS */
-  section { padding: 120px 48px; }
+  section { padding: 80px 48px; }
 
   .section-label {
     display: inline-flex; align-items: center; gap: 10px;
@@ -327,12 +328,7 @@
     margin-top: 16px;
   }
   .services-count {
-    font-family: 'Syne', sans-serif;
-    font-weight: 800;
-    font-size: 80px;
-    color: rgba(241,90,41,0.12);
-    line-height: 1;
-    letter-spacing: -3px;
+    display: none;
   }
 
   .services-grid {
@@ -669,11 +665,14 @@
     display: flex; align-items: center; justify-content: space-between;
   }
   .footer-logo {
-    font-family: 'Syne', sans-serif;
-    font-weight: 800;
-    font-size: 20px;
-    color: var(--orange);
     text-decoration: none;
+    height: 32px;
+    display: flex; align-items: center;
+  }
+  .footer-logo img {
+    height: 32px;
+    width: auto;
+    object-fit: contain;
   }
   .footer-copy {
     font-size: 12px;
@@ -796,8 +795,8 @@
     }
     
     .btn-primary {
-      padding: 12px 24px;
-      font-size: 13px;
+      padding: 10px 20px;
+      font-size: 12px;
       flex: 1;
       min-width: 140px;
     }
@@ -980,7 +979,7 @@
       text-align: center;
     }
     
-    .footer-logo { font-size: 16px; }
+    .footer-logo { height: 24px; }
     .footer-copy { font-size: 11px; }
     .footer-links { gap: 16px; flex-wrap: wrap; justify-content: center; }
     .footer-links a { font-size: 11px; }
@@ -990,7 +989,7 @@
   @media (max-width: 480px) {
     nav { padding: 12px 16px; }
     
-    .nav-logo { font-size: 16px; gap: 6px; }
+    .nav-logo { height: 32px; gap: 6px; }
     
     .nav-links {
       display: none;
@@ -1108,7 +1107,7 @@
       gap: 12px;
     }
     
-    .footer-logo { font-size: 14px; }
+    .footer-logo { height: 20px; }
     .footer-copy { font-size: 10px; }
     .footer-links { gap: 12px; }
     .footer-links a { font-size: 10px; }
@@ -1129,7 +1128,9 @@
 
 <!-- NAV -->
 <nav>
-  <a href="#" class="nav-logo">INTAJ</a>
+  <a href="#" class="nav-logo">
+    <img src="logo.png" alt="INTAJ Logo">
+  </a>
   <ul class="nav-links">
     <li><a href="#services">Services</a></li>
     <li><a href="#workflow">Workflow</a></li>
@@ -1465,7 +1466,9 @@
 
 <!-- FOOTER -->
 <footer>
-  <a href="#" class="footer-logo">INTAJ.FR</a>
+  <a href="#" class="footer-logo">
+    <img src="logo.png" alt="INTAJ Logo">
+  </a>
   <span class="footer-copy">© 2026 INTAJ.FR — From Idea to Impact</span>
   <ul class="footer-links">
     <li><a href="#services">Services</a></li>
