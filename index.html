@@ -37,8 +37,8 @@
     border-radius: 50%;
     position: fixed; top: 0; left: 0;
     pointer-events: none; z-index: 9999;
-    transition: transform 0.15s ease;
     mix-blend-mode: difference;
+    display: none;
   }
   .cursor-follower {
     width: 36px; height: 36px;
@@ -46,7 +46,7 @@
     border-radius: 50%;
     position: fixed; top: 0; left: 0;
     pointer-events: none; z-index: 9998;
-    transition: transform 0.35s ease, width 0.3s ease, height 0.3s ease;
+    display: none;
   }
   body:hover .cursor { transform: translate(-50%, -50%); }
 
@@ -286,7 +286,7 @@
   }
 
   /* SECTION COMMONS */
-  section { padding: 120px 48px; }
+  section { padding: 80px 48px; }
 
   .section-label {
     display: inline-flex; align-items: center; gap: 10px;
@@ -328,12 +328,7 @@
     margin-top: 16px;
   }
   .services-count {
-    font-family: 'Syne', sans-serif;
-    font-weight: 800;
-    font-size: 80px;
-    color: rgba(241,90,41,0.12);
-    line-height: 1;
-    letter-spacing: -3px;
+    display: none;
   }
 
   .services-grid {
@@ -800,8 +795,8 @@
     }
     
     .btn-primary {
-      padding: 12px 24px;
-      font-size: 13px;
+      padding: 10px 20px;
+      font-size: 12px;
       flex: 1;
       min-width: 140px;
     }
