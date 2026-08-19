@@ -31,26 +31,10 @@
   }
 
   /* CUSTOM CURSOR */
-  .cursor {
-    display: none;
-    width: 12px; height: 12px;
-    background: var(--orange);
-    border-radius: 50%;
-    position: fixed; top: 0; left: 0;
-    pointer-events: none; z-index: 9999;
-    mix-blend-mode: difference;
-    display: none;
-  }
-  .cursor-follower {
-    display: none;
-    width: 36px; height: 36px;
-    border: 1px solid rgba(241,90,41,0.5);
-    border-radius: 50%;
-    position: fixed; top: 0; left: 0;
-    pointer-events: none; z-index: 9998;
-    display: none;
-  }
-  body:hover .cursor { transform: translate(-50%, -50%); }
+  .cursor, .cursor-follower { display: none !important; }
+
+  /* Curseur classique garanti sur tout le site */
+  html, body, canvas { cursor: auto; }
 
   /* NAV */
   nav {
@@ -1125,9 +1109,6 @@
 </head>
 <body>
 
-<div class="cursor" id="cursor"></div>
-<div class="cursor-follower" id="cursorFollower"></div>
-
 <!-- NAV -->
 <nav>
   <a href="#" class="nav-logo">
@@ -1483,25 +1464,6 @@ const isTouchDevice = () => {
   return (('ontouchstart' in window) || (navigator.maxTouchPoints > 0) || (navigator.msMaxTouchPoints > 0));
 };
 
-// CURSOR - Only for non-touch devices
-if (!isTouchDevice()) {
-  const cursor = document.getElementById('cursor');
-  const follower = document.getElementById('cursorFollower');
-  let mx = 0, my = 0, fx = 0, fy = 0;
-  document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
-  function animateCursor() {
-    cursor.style.left = mx + 'px'; cursor.style.top = my + 'px';
-    fx += (mx - fx) * 0.12; fy += (my - fy) * 0.12;
-    follower.style.left = (fx - 18) + 'px'; follower.style.top = (fy - 18) + 'px';
-    requestAnimationFrame(animateCursor);
-  }
-  animateCursor();
-  document.querySelectorAll('a, button').forEach(el => {
-    el.addEventListener('mouseenter', () => { follower.style.width = '56px'; follower.style.height = '56px'; follower.style.borderColor = 'rgba(241,90,41,0.8)'; });
-    el.addEventListener('mouseleave', () => { follower.style.width = '36px'; follower.style.height = '36px'; follower.style.borderColor = 'rgba(241,90,41,0.5)'; });
-  });
-}
-
 // HERO 3D CANVAS
 (function() {
   const c = document.getElementById('hero-canvas');
@@ -1652,7 +1614,11 @@ if (isTouchDevice()) {
   });
 }
 
-// FORM SUBMISSION HANDLER
+// FORM SUBMISSION HANDLER (Web3Forms - aucun backend requis)
+// 1. Allez sur https://web3forms.com , entrez votre email et recuperez votre Access Key gratuite.
+// 2. Remplacez la valeur ci-dessous par votre cle. Les soumissions arriveront par email.
+const WEB3FORMS_ACCESS_KEY = 'VOTRE_ACCESS_KEY_ICI';
+
 function submitContactForm() {
   const firstName = document.getElementById('firstName').value.trim();
   const lastName = document.getElementById('lastName').value.trim();
@@ -1665,35 +1631,44 @@ function submitContactForm() {
     return;
   }
 
-  const formData = {
-    timestamp: new Date().toISOString(),
-    firstName,
-    lastName,
-    contact,
-    service,
-    project
+  if (!WEB3FORMS_ACCESS_KEY || WEB3FORMS_ACCESS_KEY === 'VOTRE_ACCESS_KEY_ICI') {
+    alert('Configuration requise : ajoutez votre Access Key Web3Forms dans le code (WEB3FORMS_ACCESS_KEY).');
+    return;
+  }
+
+  const payload = {
+    access_key: WEB3FORMS_ACCESS_KEY,
+    subject: 'Nouvelle demande INTAJ - ' + service,
+    from_name: firstName + ' ' + lastName,
+    Prenom: firstName,
+    Nom: lastName,
+    'Email / WhatsApp': contact,
+    'Service souhaite': service,
+    Projet: project
   };
 
-  fetch('/api/contact', {
+  fetch('https://api.web3forms.com/submit', {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(formData)
+    headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+    body: JSON.stringify(payload)
   })
-  .then(response => {
-    if (response.ok) {
+  .then(response => response.json())
+  .then(data => {
+    if (data.success) {
       alert('Message envoyé ! Nous vous répondons sous 24h.');
       document.getElementById('firstName').value = '';
       document.getElementById('lastName').value = '';
       document.getElementById('contactInfo').value = '';
-      document.getElementById('service').value = '';
+      document.getElementById('service').selectedIndex = 0;
       document.getElementById('project').value = '';
     } else {
-      alert('Erreur lors de l\'envoi du message.');
+      alert('Erreur lors de l\'envoi du message. Veuillez réessayer.');
+      console.error('Web3Forms error:', data);
     }
   })
   .catch(error => {
     console.error('Error:', error);
-    alert('Erreur de connexion.');
+    alert('Erreur de connexion. Veuillez réessayer.');
   });
 }
 </script>
