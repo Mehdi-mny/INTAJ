@@ -38,8 +38,8 @@
     border-radius: 50%;
     position: fixed; top: 0; left: 0;
     pointer-events: none; z-index: 9999;
-    transition: transform 0.15s ease;
     mix-blend-mode: difference;
+    display: none;
   }
   .cursor-follower {
     display: none;
@@ -48,7 +48,7 @@
     border-radius: 50%;
     position: fixed; top: 0; left: 0;
     pointer-events: none; z-index: 9998;
-    transition: transform 0.35s ease, width 0.3s ease, height 0.3s ease;
+    display: none;
   }
   body:hover .cursor { transform: translate(-50%, -50%); }
 
@@ -63,23 +63,14 @@
   }
 
   .nav-logo {
-    font-family: 'Syne', sans-serif;
-    font-weight: 800;
-    font-size: 22px;
-    letter-spacing: 1px;
-    color: var(--orange);
     text-decoration: none;
     display: flex; align-items: center; gap: 10px;
+    height: 40px;
   }
-  .nav-logo .arrow-icon {
-    width: 28px; height: 28px;
-    background: var(--orange);
-    border-radius: 6px;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 14px;
-    color: var(--black);
-    font-weight: 900;
-    flex-shrink: 0;
+  .nav-logo img {
+    height: 40px;
+    width: auto;
+    object-fit: contain;
   }
 
   .nav-links {
@@ -224,8 +215,7 @@
     transition: transform 0.25s ease, box-shadow 0.25s ease;
   }
   .btn-primary:hover { transform: translateY(-2px) scale(1.03); box-shadow: 0 12px 40px rgba(241,90,41,0.4); }
-  .btn-primary .btn-arrow { font-size: 18px; transition: transform 0.2s; }
-  .btn-primary:hover .btn-arrow { transform: translate(3px, -3px); }
+
 
   .btn-secondary {
     color: var(--white);
@@ -298,7 +288,7 @@
   }
 
   /* SECTION COMMONS */
-  section { padding: 120px 48px; }
+  section { padding: 80px 48px; }
 
   .section-label {
     display: inline-flex; align-items: center; gap: 10px;
@@ -340,12 +330,7 @@
     margin-top: 16px;
   }
   .services-count {
-    font-family: 'Syne', sans-serif;
-    font-weight: 800;
-    font-size: 80px;
-    color: rgba(241,90,41,0.12);
-    line-height: 1;
-    letter-spacing: -3px;
+    display: none;
   }
 
   .services-grid {
@@ -404,18 +389,6 @@
     line-height: 1.65;
     color: rgba(250,248,250,0.55);
   }
-  .service-arrow {
-    position: absolute; top: 36px; right: 36px;
-    width: 32px; height: 32px;
-    border: 1px solid rgba(241,90,41,0.3);
-    border-radius: 50%;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 14px;
-    color: var(--orange);
-    opacity: 0;
-    transition: opacity 0.3s, transform 0.3s;
-  }
-  .service-card:hover .service-arrow { opacity: 1; transform: rotate(45deg); }
 
   /* WORKFLOW */
   #workflow {
@@ -694,11 +667,14 @@
     display: flex; align-items: center; justify-content: space-between;
   }
   .footer-logo {
-    font-family: 'Syne', sans-serif;
-    font-weight: 800;
-    font-size: 20px;
-    color: var(--orange);
     text-decoration: none;
+    height: 32px;
+    display: flex; align-items: center;
+  }
+  .footer-logo img {
+    height: 32px;
+    width: auto;
+    object-fit: contain;
   }
   .footer-copy {
     font-size: 12px;
@@ -778,20 +754,9 @@
     }
     
     .nav-logo { font-size: 18px; }
-    .nav-logo .arrow-icon { width: 24px; height: 24px; font-size: 12px; }
     
     .nav-links {
-      gap: 16px;
-      flex-wrap: wrap;
-      width: 100%;
-      justify-content: center;
-    }
-    
-    .nav-links a { font-size: 11px; }
-    
-    .nav-cta {
-      padding: 8px 16px;
-      font-size: 12px;
+      display: none;
     }
     
     /* Hero Section */
@@ -832,8 +797,8 @@
     }
     
     .btn-primary {
-      padding: 12px 24px;
-      font-size: 13px;
+      padding: 10px 20px;
+      font-size: 12px;
       flex: 1;
       min-width: 140px;
     }
@@ -885,7 +850,6 @@
     
     .service-title { font-size: 18px; }
     .service-desc { font-size: 13px; }
-    .service-arrow { width: 28px; height: 28px; font-size: 12px; }
     
     /* Workflow */
     #workflow {
@@ -1017,7 +981,7 @@
       text-align: center;
     }
     
-    .footer-logo { font-size: 16px; }
+    .footer-logo { height: 24px; }
     .footer-copy { font-size: 11px; }
     .footer-links { gap: 16px; flex-wrap: wrap; justify-content: center; }
     .footer-links a { font-size: 11px; }
@@ -1027,18 +991,14 @@
   @media (max-width: 480px) {
     nav { padding: 12px 16px; }
     
-    .nav-logo { font-size: 16px; gap: 6px; }
-    .nav-logo .arrow-icon { width: 20px; height: 20px; font-size: 10px; }
+    .nav-logo { height: 32px; gap: 6px; }
     
     .nav-links {
-      gap: 12px;
-      font-size: 10px;
+      display: none;
     }
     
     .nav-cta {
-      padding: 8px 14px;
-      font-size: 11px;
-      border-radius: 20px;
+      display: none;
     }
     
     #hero {
@@ -1086,7 +1046,6 @@
     .service-num { margin-bottom: 20px; }
     .service-title { font-size: 16px; margin-bottom: 12px; }
     .service-desc { font-size: 12px; }
-    .service-arrow { width: 24px; height: 24px; font-size: 10px; }
     
     #workflow-canvas { height: 150px; }
     
@@ -1150,7 +1109,7 @@
       gap: 12px;
     }
     
-    .footer-logo { font-size: 14px; }
+    .footer-logo { height: 20px; }
     .footer-copy { font-size: 10px; }
     .footer-links { gap: 12px; }
     .footer-links a { font-size: 10px; }
@@ -1172,15 +1131,14 @@
 <!-- NAV -->
 <nav>
   <a href="#" class="nav-logo">
-    <span class="arrow-icon">↗</span>
-    INTAJ
+    <img src="logo.png" alt="INTAJ Logo">
   </a>
   <ul class="nav-links">
     <li><a href="#services">Services</a></li>
     <li><a href="#workflow">Workflow</a></li>
     <li><a href="#team">Équipe</a></li>
     <li><a href="#positioning">Vision</a></li>
-    <li><a href="#contact" class="nav-cta">Démarrer →</a></li>
+    <li><a href="#contact" class="nav-cta">Démarrer</a></li>
   </ul>
 </nav>
 
@@ -1202,9 +1160,9 @@
     </p>
     <div class="hero-actions">
       <a href="#contact" class="btn-primary">
-        Lancer un projet <span class="btn-arrow">↗</span>
+        Lancer un projet
       </a>
-      <a href="#services" class="btn-secondary">Nos services →</a>
+      <a href="#services" class="btn-secondary">Nos services</a>
     </div>
   </div>
 
@@ -1261,37 +1219,31 @@
       <div class="service-num">01</div>
       <h3 class="service-title">Filmmaking &<br>Direction Créative</h3>
       <p class="service-desc">Réalisation vidéo premium, scripts, storyboards et direction artistique. Contenu visuel qui marque les esprits et convertit.</p>
-      <div class="service-arrow">↗</div>
     </div>
     <div class="service-card">
       <div class="service-num">02</div>
       <h3 class="service-title">Community<br>Management</h3>
       <p class="service-desc">Gestion complète de vos plateformes sociales. Stratégie éditoriale, publication et engagement de votre communauté.</p>
-      <div class="service-arrow">↗</div>
     </div>
     <div class="service-card">
       <div class="service-num">03</div>
       <h3 class="service-title">Branding &<br>Design</h3>
       <p class="service-desc">Identité visuelle, visuels pour réseaux sociaux, supports print et digitaux. Design premium aligné à vos objectifs business.</p>
-      <div class="service-arrow">↗</div>
     </div>
     <div class="service-card">
       <div class="service-num">04</div>
       <h3 class="service-title">Media Buying<br>& Growth</h3>
       <p class="service-desc">Stratégies paid ads Facebook, Instagram, TikTok. Tracking, optimisation et reporting performance pour maximiser votre ROI.</p>
-      <div class="service-arrow">↗</div>
     </div>
     <div class="service-card">
       <div class="service-num">05</div>
       <h3 class="service-title">Montage &<br>Post-Production</h3>
       <p class="service-desc">Montage vidéo professionnel, motion design, reels, stories et tous formats digitaux livrés dans les délais.</p>
-      <div class="service-arrow">↗</div>
     </div>
     <div class="service-card">
       <div class="service-num">06</div>
       <h3 class="service-title">Stratégie &<br>Consulting</h3>
       <p class="service-desc">Audit digital, définition des piliers de contenu, calendrier éditorial mensuel et stratégie de croissance sur-mesure.</p>
-      <div class="service-arrow">↗</div>
     </div>
   </div>
 </section>
@@ -1333,7 +1285,7 @@
         <div class="step-num">04</div>
         <div class="step-body">
           <div class="step-title">Production <span class="step-badge">Delivery</span></div>
-          <p class="step-desc">Scripts → tournage planifié → montage → révision incluse → livraison finale. Centralisation sur Notion ou ClickUp pour éviter toute désorganisation.</p>
+          <p class="step-desc">Scripts, tournage planifié, montage, révision incluse et livraison finale. Centralisation sur Notion ou ClickUp pour éviter toute désorganisation.</p>
         </div>
       </div>
       <div class="workflow-step reveal">
@@ -1447,7 +1399,7 @@
     </div>
 
     <a href="#contact" class="btn-primary reveal" style="margin: 0 auto; display: inline-flex;">
-      Démarrer votre projet ↗
+      Démarrer votre projet
     </a>
   </div>
 </section>
@@ -1514,7 +1466,9 @@
 
 <!-- FOOTER -->
 <footer>
-  <a href="#" class="footer-logo">↗ INTAJ.FR</a>
+  <a href="#" class="footer-logo">
+    <img src="logo.png" alt="INTAJ Logo">
+  </a>
   <span class="footer-copy">© 2026 INTAJ.FR — From Idea to Impact</span>
   <ul class="footer-links">
     <li><a href="#services">Services</a></li>
@@ -1568,18 +1522,6 @@ if (!isTouchDevice()) {
     });
   }
 
-  const arrows = [];
-  for (let i = 0; i < 8; i++) {
-    arrows.push({
-      x: Math.random() * c.width, y: Math.random() * c.height,
-      size: Math.random() * 40 + 20,
-      opacity: Math.random() * 0.12 + 0.04,
-      speed: (Math.random() - 0.5) * 0.3,
-      vy: (Math.random() - 0.5) * 0.2,
-      rot: Math.random() * Math.PI * 2
-    });
-  }
-
   let t = 0;
   function draw() {
     t++;
@@ -1608,35 +1550,6 @@ if (!isTouchDevice()) {
           ctx.stroke();
         }
       });
-    });
-
-    // Floating arrows
-    arrows.forEach(a => {
-      a.x += a.speed; a.y += a.vy; a.rot += 0.003;
-      if (a.x < -50) a.x = c.width + 50; if (a.x > c.width + 50) a.x = -50;
-      if (a.y < -50) a.y = c.height + 50; if (a.y > c.height + 50) a.y = -50;
-      ctx.save();
-      ctx.translate(a.x, a.y); ctx.rotate(a.rot);
-      ctx.globalAlpha = a.opacity;
-      ctx.strokeStyle = '#f15a29';
-      ctx.lineWidth = 2;
-      ctx.lineCap = 'round';
-      const s = a.size;
-      ctx.beginPath();
-      ctx.moveTo(-s * 0.4, s * 0.4);
-      ctx.lineTo(s * 0.4, -s * 0.4);
-      ctx.moveTo(s * 0.4, -s * 0.4);
-      ctx.lineTo(0, -s * 0.4);
-      ctx.moveTo(s * 0.4, -s * 0.4);
-      ctx.lineTo(s * 0.4, 0);
-      ctx.stroke();
-      // dot
-      ctx.beginPath();
-      ctx.arc(-s * 0.4, s * 0.4, s * 0.08, 0, Math.PI * 2);
-      ctx.fillStyle = '#f15a29';
-      ctx.fill();
-      ctx.restore();
-      ctx.globalAlpha = 1;
     });
 
     requestAnimationFrame(draw);
