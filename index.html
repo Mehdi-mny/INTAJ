@@ -27,11 +27,12 @@
     background: var(--black);
     color: var(--white);
     overflow-x: hidden;
-    cursor: none;
+    cursor: auto;
   }
 
   /* CUSTOM CURSOR */
   .cursor {
+    display: none;
     width: 12px; height: 12px;
     background: var(--orange);
     border-radius: 50%;
@@ -41,6 +42,7 @@
     mix-blend-mode: difference;
   }
   .cursor-follower {
+    display: none;
     width: 36px; height: 36px;
     border: 1px solid rgba(241,90,41,0.5);
     border-radius: 50%;
@@ -1252,7 +1254,6 @@
       <h2 class="section-title">Ce que nous <span>créons</span><br>pour vous.</h2>
       <p>Des solutions marketing sur mesure, alliant créativité et performance pour faire grandir votre marque sur tous les canaux digitaux.</p>
     </div>
-    <div class="services-count">04</div>
   </div>
 
   <div class="services-grid reveal">
@@ -1299,7 +1300,6 @@
 
 <!-- WORKFLOW -->
 <section id="workflow">
-  <canvas id="workflow-canvas"></canvas>
   <div class="workflow-content">
     <div class="workflow-header reveal">
       <div class="section-label">Notre Processus</div>
@@ -1464,13 +1464,13 @@
 
       <div class="contact-info">
         <div class="contact-item">
-          intaj.ma
+          intaj.fr
         </div>
         <div class="contact-item">
           Maroc — Disponible partout
         </div>
         <div class="contact-item">
-          @intaj.ma
+          @intaj.fr
         </div>
       </div>
     </div>
@@ -1479,20 +1479,20 @@
       <div class="form-row">
         <div class="form-group">
           <label>Prénom</label>
-          <input type="text" placeholder="Votre prénom">
+          <input type="text" id="firstName" placeholder="Votre prénom">
         </div>
         <div class="form-group">
           <label>Nom</label>
-          <input type="text" placeholder="Votre nom">
+          <input type="text" id="lastName" placeholder="Votre nom">
         </div>
       </div>
       <div class="form-group">
         <label>Email / WhatsApp</label>
-        <input type="text" placeholder="contact@votreentreprise.ma">
+        <input type="text" id="contactInfo" placeholder="contact@votreentreprise.ma">
       </div>
       <div class="form-group">
         <label>Service souhaité</label>
-        <select>
+        <select id="service">
           <option value="" disabled selected>Choisir un service...</option>
           <option>Filmmaking & Direction Créative</option>
           <option>Community Management</option>
@@ -1503,9 +1503,9 @@
       </div>
       <div class="form-group">
         <label>Votre projet</label>
-        <textarea rows="4" placeholder="Décrivez votre projet, vos objectifs..."></textarea>
+        <textarea id="project" rows="4" placeholder="Décrivez votre projet, vos objectifs..."></textarea>
       </div>
-      <button class="btn-primary" style="width:100%; justify-content:center;" onclick="alert('Message envoyé ! Nous vous répondons sous 24h.')">
+      <button class="btn-primary" style="width:100%; justify-content:center;" onclick="submitContactForm()">
         Envoyer la demande ↗
       </button>
     </div>
@@ -1736,6 +1736,51 @@ if (isTouchDevice()) {
   document.querySelectorAll('a, button').forEach(el => {
     el.addEventListener('touchstart', () => el.style.opacity = '0.7');
     el.addEventListener('touchend', () => el.style.opacity = '1');
+  });
+}
+
+// FORM SUBMISSION HANDLER
+function submitContactForm() {
+  const firstName = document.getElementById('firstName').value.trim();
+  const lastName = document.getElementById('lastName').value.trim();
+  const contact = document.getElementById('contactInfo').value.trim();
+  const service = document.getElementById('service').value.trim();
+  const project = document.getElementById('project').value.trim();
+
+  if (!firstName || !lastName || !contact || !service || !project) {
+    alert('Veuillez remplir tous les champs.');
+    return;
+  }
+
+  const formData = {
+    timestamp: new Date().toISOString(),
+    firstName,
+    lastName,
+    contact,
+    service,
+    project
+  };
+
+  fetch('/api/contact', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(formData)
+  })
+  .then(response => {
+    if (response.ok) {
+      alert('Message envoyé ! Nous vous répondons sous 24h.');
+      document.getElementById('firstName').value = '';
+      document.getElementById('lastName').value = '';
+      document.getElementById('contactInfo').value = '';
+      document.getElementById('service').value = '';
+      document.getElementById('project').value = '';
+    } else {
+      alert('Erreur lors de l\'envoi du message.');
+    }
+  })
+  .catch(error => {
+    console.error('Error:', error);
+    alert('Erreur de connexion.');
   });
 }
 </script>

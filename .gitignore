@@ -1,0 +1,13 @@
+# Database files (contain user submission data)
+*.db
+submissions.db
+submissions.json
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyc
+
+# OS files
+.DS_Store
+Thumbs.db
