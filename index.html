@@ -1457,7 +1457,7 @@
         <label>Votre projet</label>
         <textarea id="project" rows="4" placeholder="Décrivez votre projet, vos objectifs..."></textarea>
       </div>
-      <button class="btn-primary" style="width:100%; justify-content:center;" onclick="submitContactForm()">
+      <button class="btn-primary" style="width:100%; justify-content:center;" onclick="submitContactForm(event)">
         Envoyer la demande ↗
       </button>
     </div>
@@ -1652,8 +1652,11 @@ if (isTouchDevice()) {
   });
 }
 
-// FORM SUBMISSION HANDLER
-function submitContactForm() {
+// FORM SUBMISSION HANDLER — envoi direct vers contact@intaj.fr
+const CONTACT_EMAIL = 'contact@intaj.fr';
+const CONTACT_ENDPOINT = 'https://formsubmit.co/ajax/' + CONTACT_EMAIL;
+
+function submitContactForm(event) {
   const firstName = document.getElementById('firstName').value.trim();
   const lastName = document.getElementById('lastName').value.trim();
   const contact = document.getElementById('contactInfo').value.trim();
@@ -1665,22 +1668,36 @@ function submitContactForm() {
     return;
   }
 
-  const formData = {
-    timestamp: new Date().toISOString(),
-    firstName,
-    lastName,
-    contact,
-    service,
-    project
+  const payload = {
+    _subject: 'Nouvelle demande INTAJ — ' + firstName + ' ' + lastName,
+    _template: 'table',
+    _captcha: 'false',
+    Prénom: firstName,
+    Nom: lastName,
+    'Email / WhatsApp': contact,
+    'Service souhaité': service,
+    Projet: project,
+    Date: new Date().toLocaleString('fr-FR')
   };
 
-  fetch('/api/contact', {
+  const button = event && event.currentTarget ? event.currentTarget : null;
+  const originalText = button ? button.innerHTML : '';
+  if (button) {
+    button.disabled = true;
+    button.innerHTML = 'Envoi en cours...';
+  }
+
+  fetch(CONTACT_ENDPOINT, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(formData)
+    headers: {
+      'Content-Type': 'application/json',
+      'Accept': 'application/json'
+    },
+    body: JSON.stringify(payload)
   })
-  .then(response => {
-    if (response.ok) {
+  .then(response => response.json().catch(() => ({})).then(data => ({ ok: response.ok, data })))
+  .then(({ ok, data }) => {
+    if (ok && (data.success === 'true' || data.success === true)) {
       alert('Message envoyé ! Nous vous répondons sous 24h.');
       document.getElementById('firstName').value = '';
       document.getElementById('lastName').value = '';
@@ -1688,12 +1705,18 @@ function submitContactForm() {
       document.getElementById('service').value = '';
       document.getElementById('project').value = '';
     } else {
-      alert('Erreur lors de l\'envoi du message.');
+      alert('Erreur lors de l\'envoi du message. Écrivez-nous directement à ' + CONTACT_EMAIL + '.');
     }
   })
   .catch(error => {
     console.error('Error:', error);
-    alert('Erreur de connexion.');
+    alert('Erreur de connexion. Écrivez-nous directement à ' + CONTACT_EMAIL + '.');
+  })
+  .finally(() => {
+    if (button) {
+      button.disabled = false;
+      button.innerHTML = originalText;
+    }
   });
 }
 </script>
